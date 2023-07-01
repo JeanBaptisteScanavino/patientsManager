@@ -32,6 +32,7 @@ ALLOWED_HOSTS = [os.getenv("DJANGO_ALLOWED_HOSTS")]
 
 INSTALLED_APPS = [
     "patients.apps.PatientsConfig",
+    "consultations.apps.ConsultationsConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",

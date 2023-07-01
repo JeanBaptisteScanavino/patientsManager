@@ -1,6 +1,5 @@
 from django.db import models
 
-# Create your models here.
 
 
 class Patients(models.Model):
@@ -23,18 +22,6 @@ class Patients(models.Model):
     @classmethod
     def _get_all(cls):
         return cls.objects.all()
-
-    @classmethod
-    def _create_patient(cls, data):
-        patient = cls(
-            first_name=data["first_name"],
-            last_name=data["last_name"],
-            email=data["email"],
-            adress=data["adress"],
-            zip_code=data["zip_code"],
-            city=data["city"],
-        )
-        patient.save()
 
 
 class Meta:
