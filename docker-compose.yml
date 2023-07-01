@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:13.3-alpine
+    shm_size: 2g
+    environment:
+      POSTGRES_DB: db_name
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_HOSTNAME: postgres
+      POSTGRES_PORT: 5432
+    volumes:
+      - ./data-pgsql:/var/lib/postgresql/data
+    networks:
+      - patient_manager
+  app:
+    build:
+      context: ./manager
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    volumes: 
+      - "./manager:/app"
+    depends_on:
+        - postgres
+    environment:
+      POSTGRES_DB: db_name
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_HOSTNAME: postgres
+      POSTGRES_PORT: 5432
+      DJANGO_ALLOWED_HOSTS: 0.0.0.0
+      SECRET_KEY: SECRET_KEY
+    networks:
+      - patient_manager
+
+networks:
+  patient_manager:
+    name: patient_manager
+    driver: bridge
