@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Accueil{% endblock %}</title>
+  </head>
+
+  <body>
+    <div class="page-content">
+      {% block navbar %}
+        {% include 'layout/navbar.html' %}
+      {% endblock %}
+      {% block content %}{% endblock %}
+    </div>
+  </body>
+</html>
