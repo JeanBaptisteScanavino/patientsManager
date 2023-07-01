@@ -1,13 +1,13 @@
 from django.db import models
-
+from encrypted_fields import fields
 
 
 class Patients(models.Model):
-    first_name = models.CharField(verbose_name="Prénom")
+    first_name = fields.EncryptedCharField(verbose_name="Prénom")
 
-    last_name = models.CharField(verbose_name="Nom")
+    last_name = fields.EncryptedCharField(verbose_name="Nom")
 
-    email = models.EmailField(verbose_name="Email", unique=True)
+    email = fields.EncryptedEmailField(verbose_name="Email")
 
     adress = models.CharField(verbose_name="Adresse", null=True)
 

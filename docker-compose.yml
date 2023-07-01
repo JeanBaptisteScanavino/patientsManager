@@ -31,7 +31,7 @@ services:
       POSTGRES_HOSTNAME: postgres
       POSTGRES_PORT: 5432
       DJANGO_ALLOWED_HOSTS: 0.0.0.0
-      SECRET_KEY: SECRET_KEY
+      SECRET_KEY: "django-insecure-^^$*#k#ogvjobfxzhe@(cuk-a^te-ot+f%ng=2d$ie!24s&4cu"
     networks:
       - patient_manager
 
