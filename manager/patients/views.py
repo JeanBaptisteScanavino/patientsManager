@@ -23,6 +23,7 @@ class PatientsCreation(CreateView):
     fields = ["first_name", "last_name", "email", "adress", "zip_code", "city"]
     template_name = "patients/creation.html"
     success_url = reverse_lazy("patients-list")
+    #TODO create with form, if email exist error
 
 
 class PatientsDetails(DetailView):

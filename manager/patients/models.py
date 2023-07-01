@@ -23,6 +23,7 @@ class Patients(models.Model):
     def _get_all(cls):
         return cls.objects.all()
 
+    # TODO create patient
 
 class Meta:
     verbose_name = "Patient"
