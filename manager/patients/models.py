@@ -1,3 +1,4 @@
+from django.core.exceptions import FieldError
 from django.db import models
 from encrypted_fields import fields
 
@@ -20,14 +21,32 @@ class Patients(models.Model):
     )
 
     @classmethod
+    def check_existing_email(cls, email):
+        all_email = cls.objects.values_list("email", flat=True)
+        if email in all_email:
+            raise FieldError("Email already exist")
+
+    @classmethod
     def _get_all(cls):
         return cls.objects.all()
 
-    # TODO create patient
+    @classmethod
+    def _create_patient(cls, data):
+        patient = cls.objects.create(
+            first_name=data["first_name"],
+            last_name=data["last_name"],
+            email=data["email"],
+            adress=data["adress"],
+            city=data["city"],
+            zip_code=data["zip_code"],
+        )
+        patient.save()
+        return patient
+
 
 class Meta:
     verbose_name = "Patient"
 
 
 def __str__(self):
-    return f"{self.pk}"
+    return f"{self.first_name}"

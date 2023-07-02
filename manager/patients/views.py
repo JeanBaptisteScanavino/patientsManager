@@ -1,10 +1,11 @@
+from consultations.models import Consultations
+from django.core.exceptions import FieldError
+from django.http import HttpResponseBadRequest
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, DeleteView, UpdateView
-from consultations.models import Consultations
-
+from django.views.generic.edit import DeleteView, FormView, UpdateView
 from patients.forms import PatientsCreationForm
 from patients.models import Patients
 
@@ -17,13 +18,26 @@ class PatientsList(View):
         return render(request, template_name, context)
 
 
-class PatientsCreation(CreateView):
+class PatientsCreation(FormView):
     model = Patients
-    # form_class = PatientsCreationForm
-    fields = ["first_name", "last_name", "email", "adress", "zip_code", "city"]
+    form_class = PatientsCreationForm
     template_name = "patients/creation.html"
     success_url = reverse_lazy("patients-list")
-    #TODO create with form, if email exist error
+
+    def is_valid(self, form):
+        try:
+            Patients.check_existing_email(form.cleaned_data["email"])
+            return True
+        except FieldError as e:
+            raise e
+
+    def form_valid(self, form):
+        try:
+            self.is_valid(form)
+            patient = Patients._create_patient(form.cleaned_data)
+            return reverse_lazy("patients-detail", kwargs={"pk": patient.pk})
+        except Exception as e:
+            return HttpResponseBadRequest(e)
 
 
 class PatientsDetails(DetailView):
@@ -43,9 +57,10 @@ class PatientsDelete(DeleteView):
     template_name = "patients/patients_confirm_delete.html"
     success_url = reverse_lazy("patients-list")
 
+
 class PatientsConsultationList(View):
     def get(self, request, *args, **kwargs):
         template_name = "consultations/list.html"
         context = {}
-        context["consultations"] = Consultations._get_all_consultations(kwargs['pk'])
+        context["consultations"] = Consultations._get_all_consultations(kwargs["pk"])
         return render(request, template_name, context)
