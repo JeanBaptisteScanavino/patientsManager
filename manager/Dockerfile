@@ -12,6 +12,8 @@ RUN apt-get update \
     build-essential \
     && apt-get install -y libpq-dev gcc && rm -rf /var/lib/apt/lists/*
 
+
+RUN pip install --upgrade pip
 RUN pip install -r /etc/requirements/requirements.txt
 
 COPY ./start.sh ./
