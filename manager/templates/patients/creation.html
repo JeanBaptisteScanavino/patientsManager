@@ -11,4 +11,34 @@
       Créer le patient
     </button>
   {% endbuttons %}
+{% block scriptblock %}
+<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+  $(document).ready(function() {
+    var query = document.querySelector('#id_city').value
+    $('#id_city').select2({
+      ajax: {
+        url: `https://geo.api.gouv.fr/communes?`,
+        dataType: 'json',
+        data: function (params) {
+          var query = {
+            nom: params.term,
+            limit: 5,
+            boost:'population',
+          }
+          return query;
+        },
+        processResults: function (data) {
+          var result = data.map(city => city)
+          console.log(result)
+          return {
+            results: result
+          };
+        },
+      }
+    });
+  });
+</script>
+{% endblock scriptblock %}
 {% endblock %}
