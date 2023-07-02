@@ -1,4 +1,6 @@
 from consultations.models import Consultations
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import FieldError
 from django.http import HttpResponseBadRequest
 from django.shortcuts import render
@@ -11,13 +13,13 @@ from patients.forms import PatientsCreationForm
 from patients.models import Patients
 
 
-class PatientsList(ListView):
+class PatientsList(LoginRequiredMixin, ListView):
     model = Patients
     template_name = "patients/list.html"
     paginate_by = 50
 
 
-class PatientsCreation(FormView):
+class PatientsCreation(LoginRequiredMixin, FormView):
     model = Patients
     form_class = PatientsCreationForm
     template_name = "patients/creation.html"
@@ -39,25 +41,25 @@ class PatientsCreation(FormView):
             return HttpResponseBadRequest(e)
 
 
-class PatientsDetails(DetailView):
+class PatientsDetails(LoginRequiredMixin, DetailView):
     model = Patients
     template_name = "patients/detail.html"
 
 
-class PatientsUpdate(UpdateView):
+class PatientsUpdate(LoginRequiredMixin, UpdateView):
     model = Patients
     fields = ["first_name", "last_name", "email", "adress", "zip_code", "city"]
     template_name = "patients/patients_update.html"
     success_url = reverse_lazy("patients-list")
 
 
-class PatientsDelete(DeleteView):
+class PatientsDelete(LoginRequiredMixin, DeleteView):
     model = Patients
     template_name = "patients/patients_confirm_delete.html"
     success_url = reverse_lazy("patients-list")
 
 
-class PatientsConsultationList(View):
+class PatientsConsultationList(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         template_name = "consultations/list.html"
         context = {}
@@ -65,6 +67,7 @@ class PatientsConsultationList(View):
         return render(request, template_name, context)
 
 
+@login_required
 def research_patients(request):
     if request.method == "GET":
         template_name = "patients/list.html"
