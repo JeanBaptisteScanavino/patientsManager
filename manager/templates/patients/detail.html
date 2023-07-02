@@ -1,2 +1,6 @@
+{% extends 'base.html' %}
+{% block title %}Patient {{object.lastname}}{% endblock %}
+{% block content %}
 <h1>{{ object.first_name }}</h1>
 <p>{{ object.last_name }}</p>
+{% endblock %}

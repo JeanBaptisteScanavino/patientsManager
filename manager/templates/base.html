@@ -3,10 +3,13 @@
   <head>
     <meta charset="UTF-8">
     <title>{% block title %}Accueil{% endblock %}</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
   </head>
 
   <body>
-    <div class="page-content">
+    <div class="container-fluid mx-auto">
       {% block navbar %}
         {% include 'layout/navbar.html' %}
       {% endblock %}

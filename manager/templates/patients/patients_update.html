@@ -1,4 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Liste des patients{% endblock %}
+{% block content %}
+{% load bootstrap5 %}
+
 <form method="post">{% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Modifier le patient">
 </form>
+{% endblock %}

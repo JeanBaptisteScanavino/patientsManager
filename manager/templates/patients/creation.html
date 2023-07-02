@@ -1,4 +1,14 @@
-<form method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Créer le patient">
-</form>
+{% extends 'base.html' %}
+{% block title %}Créer un patient{% endblock %}
+{%block content %}
+{% load bootstrap5 %}
+
+<form url="{%url "patients-creation" %}" method="post" class="form p-3">
+  {% csrf_token %}
+  {% bootstrap_form form %}
+  {% buttons %}
+    <button type="submit" class="btn btn-primary">
+      Créer le patient
+    </button>
+  {% endbuttons %}
+{% endblock %}

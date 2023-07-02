@@ -34,8 +34,8 @@ class PatientsCreation(FormView):
     def form_valid(self, form):
         try:
             self.is_valid(form)
-            patient = Patients._create_patient(form.cleaned_data)
-            return reverse_lazy("patients-detail", kwargs={"pk": patient.pk})
+            Patients._create_patient(form.cleaned_data)
+            return super(PatientsCreation, self).form_valid(form)
         except Exception as e:
             return HttpResponseBadRequest(e)
 
