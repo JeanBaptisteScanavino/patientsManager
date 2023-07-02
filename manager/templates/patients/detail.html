@@ -1,6 +1,24 @@
 {% extends 'base.html' %}
 {% block title %}Patient {{object.lastname}}{% endblock %}
 {% block content %}
-<h1>{{ object.first_name }}</h1>
-<p>{{ object.last_name }}</p>
+<div class="p-3">
+<h1>{{ object.first_name }} {{ object.last_name }}</h1>
+<p> {{ object.email }} </p>
+<p>{{ object.adress }}</p>
+<p>{{ object.zip_code }} {{ object.city }}</p>
+<div class="d-flex justify-content-evenly">
+    <button onclick="window.location.href='{% url "patients-update" object.pk %}'" class="btn btn-primary">
+      Modifier
+    </button>
+    <button onclick="window.location.href='{% url "consultation-creation" %}'" class="btn" style="color:white; background-color: #3D8BFD;">
+      Créer une consultation
+    </button>
+    <button onclick="window.location.href='{% url 'patients-consultations' object.pk %}'" class="btn" style="color:white; background-color: #9EC5FE;">
+      Liste des consultations
+    </button>
+    <button onclick="window.location.href='{% url "patients-delete" object.pk %}'" class="btn btn-danger">
+      Supprimer
+    </button>
+  </div>
+</div>
 {% endblock %}

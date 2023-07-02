@@ -1,35 +1,46 @@
 {% extends 'base.html' %}
 {% block title %}Liste des patients{% endblock %}
 {% block content %}
-<div class="d-flex flex-column">
-  {% for patient in patients %}
-      <div class="d-flex">
-        <a href="{% url 'patients-details' patient.pk %}" class="list-group-item list-group-item-action" aria-current="true">
-          <div class="">
-            <h5 class="mb-1">{{ patient.last_name }} {{ patient.first_name }}</h5>
-            <p> {{ patient.email }}
+
+{% if page_obj.number %}
+  {% include "layout/pagination.html" %}
+{% endif %}
+{% if page_obj %}
+  <div class="d-flex flex-column">
+    {% for patient in page_obj %}
+    <div class="d-flex">
+      <a href="{% url 'patients-details' patient.pk %}" class="list-group-item list-group-item-action" aria-current="true">
+        <div class="">
+          <h5 class="mb-1">{{ patient.last_name }} {{ patient.first_name }}</h5>
+          <p> {{ patient.email }}
           </div>
           <div>
             <p> {{patient.adress}} </p>
             <p> {{patient.zip_code}} {{patient.city}} </p>
           </div>
         </a>
-      <div class="d-flex flex-column col-2">
-        <button onclick="window.location.href='{% url "patients-update" patient.pk %}'" class="btn btn-primary">
-          Modifier
-        </button>
-        <button onclick="window.location.href='{% url "consultation-creation" %}'" class="btn" style="color:white; background-color: #3D8BFD;">
-          Créer une consultation
-        </button>
-        <button onclick="window.location.href='{% url 'patients-details' patient.pk %}'" class="btn" style="color:white; background-color: #9EC5FE;">
-          Infos
-        </button>
-        <button onclick="window.location.href='{% url "patients-delete" patient.pk %}'" class="btn btn-danger">
-          Supprimer
-        </button>
+        <div class="d-flex flex-column col-2">
+          <button onclick="window.location.href='{% url "patients-update" patient.pk %}'" class="btn btn-primary">
+            Modifier
+          </button>
+          <button onclick="window.location.href='{% url "consultation-creation" %}'" class="btn" style="color:white; background-color: #3D8BFD;">
+            Créer une consultation
+          </button>
+          <button onclick="window.location.href='{% url 'patients-details' patient.pk %}'" class="btn" style="color:white; background-color: #9EC5FE;">
+            Infos
+          </button>
+          <button onclick="window.location.href='{% url "patients-delete" patient.pk %}'" class="btn btn-danger">
+            Supprimer
+          </button>
+        </div>
       </div>
+      
+      {% endfor %}
     </div>
-
-  {% endfor %}
-  </div>
+  {% else %}
+    <p class="display-4 text-center"> Il n'y a pas de résultat</p>
+  {% endif %}
+{% if page_obj.number %}
+  {% include "layout/pagination.html" %}
+{% endif %}
 {% endblock %}

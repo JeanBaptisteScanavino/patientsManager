@@ -1,13 +1,11 @@
+from consultations.forms import ConsultationCreationForm
 from consultations.models import Consultations
-from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import FormView
 
 
-# Create your views here.
-class ConsultationCreation(CreateView):
+class ConsultationCreation(FormView):
     model = Consultations
-    # form_class = PatientsCreationForm
-    fields = ["date", "patient", "description", "consultation_type"]
+    form_class = ConsultationCreationForm
     template_name = "consultations/creation.html"
     success_url = reverse_lazy("patients-list")

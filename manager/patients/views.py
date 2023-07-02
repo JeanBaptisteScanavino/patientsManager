@@ -1,21 +1,22 @@
+import json
+
 from consultations.models import Consultations
 from django.core.exceptions import FieldError
-from django.http import HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import View
+from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView, FormView, UpdateView
 from patients.forms import PatientsCreationForm
 from patients.models import Patients
 
 
-class PatientsList(View):
-    def get(self, request, *args, **kwargs):
-        template_name = "patients/list.html"
-        context = {}
-        context["patients"] = Patients._get_all()
-        return render(request, template_name, context)
+class PatientsList(ListView):
+    model = Patients
+    template_name = "patients/list.html"
+    paginate_by = 50
 
 
 class PatientsCreation(FormView):
@@ -63,4 +64,13 @@ class PatientsConsultationList(View):
         template_name = "consultations/list.html"
         context = {}
         context["consultations"] = Consultations._get_all_consultations(kwargs["pk"])
+        return render(request, template_name, context)
+
+
+def research_patients(request):
+    if request.method == "GET":
+        template_name = "patients/list.html"
+        data = Patients._search_patients(request.GET.get("search"))
+        context = {}
+        context["page_obj"] = data
         return render(request, template_name, context)

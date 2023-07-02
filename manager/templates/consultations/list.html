@@ -1,9 +1,21 @@
 {% extends 'base.html' %}
-{% block title %}Liste des Consultations pour{% endblock %}
+{% block title %}Liste des Consultations pour {{ consultations.0.patient.last_name}} {{ consultation.0.patient.first_name}}{% endblock %}
 {% block content %}
-  <div class="container">
-        {% for consultation in consultations %}
-          <a href='{{consultation.pk}}'> {{consultation.date}}</a>
-        {% endfor %}
+  <div class="container d-flex flex-column">
+    <button onclick="window.location.href='{% url "consultation-creation" %}'" class="btn" style="color:white; background-color: #3D8BFD;">
+      Créer une consultation
+    </button>
+    {% if consultations %}
+    <p class="display-3" > {{ consultations.0.patient.last_name}} {{ consultations.0.patient.first_name}}</p>
+      {% for consultation in consultations %}
+      <div class="card">
+        <p class="display-4">  {{consultation.date}}</p>
+        <p class="display-5"> {{ consultation.consultation_type}}
+        <p> {{ consultation.description}} <p>
+      </div>
+      {% endfor %}
+    {% else %}
+      <p> Ce patient n'as pas de consultation </p>
+    {% endif %}
   </div>
 {% endblock %}

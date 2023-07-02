@@ -43,6 +43,26 @@ class Patients(models.Model):
         patient.save()
         return patient
 
+    @staticmethod
+    def check_name_and_mail_contain(patient, request):
+        if request in patient.first_name:
+            return True
+        if request in patient.last_name:
+            return True
+        if request in patient.email:
+            return True
+        return False
+
+    @classmethod
+    def _search_patients(cls, request):
+        all_patients = cls.objects.all()
+        array_patient = [
+            patient
+            for patient in all_patients
+            if cls.check_name_and_mail_contain(patient, request)
+        ]
+        return array_patient
+
 
 class Meta:
     verbose_name = "Patient"
