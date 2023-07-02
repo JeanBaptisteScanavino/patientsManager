@@ -45,11 +45,11 @@ class Patients(models.Model):
 
     @staticmethod
     def check_name_and_mail_contain(patient, request):
-        if request in patient.first_name:
+        if request.lower() in patient.first_name.lower():
             return True
-        if request in patient.last_name:
+        if request.lower() in patient.last_name.lower():
             return True
-        if request in patient.email:
+        if request.lower() in patient.email.lower():
             return True
         return False
 
@@ -63,10 +63,12 @@ class Patients(models.Model):
         ]
         return array_patient
 
+    def __str__(self):
+        return f"{self.last_name} {self.first_name}"
+
+    def __repr__(self):
+        return f"{self.last_name} {self.first_name}"
+
 
 class Meta:
     verbose_name = "Patient"
-
-
-def __str__(self):
-    return f"{self.first_name}"

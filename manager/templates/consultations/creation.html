@@ -10,4 +10,11 @@
         Créer la consultation
       </button>
     {% endbuttons %}
+{% block scriptblock %}
+<script>
+  $(document).ready(function() {
+    $('#id_patient').select2();
+  });
+</script>
+{% endblock scriptblock %}
 {% endblock %}

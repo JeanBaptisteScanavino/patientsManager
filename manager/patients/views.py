@@ -1,8 +1,6 @@
-import json
-
 from consultations.models import Consultations
 from django.core.exceptions import FieldError
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponseBadRequest
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import View

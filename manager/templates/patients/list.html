@@ -2,7 +2,7 @@
 {% block title %}Liste des patients{% endblock %}
 {% block content %}
 
-{% if page_obj.number %}
+{% if page_obj.paginator.num_pages > 1 %}
   {% include "layout/pagination.html" %}
 {% endif %}
 {% if page_obj %}
@@ -40,7 +40,7 @@
   {% else %}
     <p class="display-4 text-center"> Il n'y a pas de résultat</p>
   {% endif %}
-{% if page_obj.number %}
+{% if page_obj.paginator.num_pages > 1 %}
   {% include "layout/pagination.html" %}
 {% endif %}
 {% endblock %}

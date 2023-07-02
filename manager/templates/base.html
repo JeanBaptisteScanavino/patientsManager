@@ -3,17 +3,22 @@
   <head>
     <meta charset="UTF-8">
     <title>{% block title %}Accueil{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     {% load bootstrap5 %}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
   </head>
-
+  
   <body>
     <div class="container-fluid mx-auto">
       {% block navbar %}
-        {% include 'layout/navbar.html' %}
+      {% include 'layout/navbar.html' %}
       {% endblock %}
       {% block content %}{% endblock %}
     </div>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    {% block scriptblock %}
+    {% endblock %}
   </body>
 </html>

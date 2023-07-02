@@ -1,5 +1,3 @@
-from enum import Enum
-
 from django.db import models
 from patients.models import Patients
 
@@ -26,3 +24,13 @@ class Consultations(models.Model):
     def _get_all_consultations(cls, patient_pk):
         consultations = cls.objects.filter(patient__pk=patient_pk)
         return consultations
+
+    @classmethod
+    def _create_consultation(cls, data):
+        consultation = cls.objects.create(
+            date=data["date"],
+            patient=data["patient"],
+            description=data["description"],
+            consultation_type=data["consultation_type"],
+        )
+        consultation.save()
