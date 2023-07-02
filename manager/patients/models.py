@@ -63,6 +63,10 @@ class Patients(models.Model):
         ]
         return array_patient
 
+    @classmethod
+    def _get_patient(cls, request):
+        return cls.objects.get(pk=request)
+
     def __str__(self):
         return f"{self.last_name} {self.first_name}"
 

@@ -2,8 +2,8 @@ from consultations.models import Consultations
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import FieldError
-from django.http import HttpResponseBadRequest
-from django.shortcuts import render
+from django.http import HttpResponse, HttpResponseBadRequest
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView
@@ -56,7 +56,11 @@ class PatientsUpdate(LoginRequiredMixin, UpdateView):
 class PatientsDelete(LoginRequiredMixin, DeleteView):
     model = Patients
     template_name = "patients/patients_confirm_delete.html"
-    success_url = reverse_lazy("patients-list")
+
+    def post(self, request, *args, **kwargs):
+        patient = Patients._get_patient(kwargs["pk"])
+        patient.delete()
+        return HttpResponse(status=204, headers={"HX-Trigger": "patientDeleted"})
 
 
 class PatientsConsultationList(LoginRequiredMixin, View):

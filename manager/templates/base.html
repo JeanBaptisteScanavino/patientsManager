@@ -4,19 +4,37 @@
     <meta charset="UTF-8">
     <title>{% block title %}Accueil{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://unpkg.com/htmx.org@1.9.2"></script>
     {% load bootstrap5 %}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
   </head>
   
   <body>
-    <div class="container-fluid mx-auto">
+    <div class="container-fluid mx-auto" >
       {% block navbar %}
       {% include 'layout/navbar.html' %}
       {% endblock %}
       {% block content %}{% endblock %}
     </div>
-
+    
+    <div id="modal" class="modal fade">
+      <div id="dialog" class="modal-dialog" hx-target="this"></div>
+    </div>
+    <script>
+      var modal = new bootstrap.Modal(document.getElementById("modal"))
+      htmx.on("htmx:afterSwap", (e) => {
+        if (e.detail.target.id == "dialog") {
+          modal.show()
+        }
+      })
+      htmx.on("htmx:beforeSwap", (e) => {
+        if (e.detail.target.id == "dialog" && !e.detail.xhr.response) {
+          modal.hide()
+          e.detail.shouldSwap = false
+        }
+      })
+    </script>
     {% block scriptblock %}
     {% endblock %}
   </body>

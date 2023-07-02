@@ -1,5 +1,13 @@
-<form method="post">{% csrf_token %}
+<form hx-post="{{ request.path }}" class="modal-content">
+  {% csrf_token %}
+  <div class="modal-header">
     <p>Are you sure you want to delete "{{ object }}"?</p>
-    {{ form }}
-    <input type="submit" value="Confirm">
+  </div>
+  <div class="modal-body">
+    {{ form.as_p }}
+  </div>
+  <div class="modal-footer">
+    <button type="button" data-bs-dismiss="modal">Annuler la suppression</button>
+    <button id='delete-patient-id' type="submit">Supprimer ce patient</button>
+  </div>
 </form>

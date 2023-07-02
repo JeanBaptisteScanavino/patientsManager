@@ -6,7 +6,7 @@
   {% include "layout/pagination.html" %}
 {% endif %}
 {% if page_obj %}
-  <div class="d-flex flex-column">
+  <div hx-trigger="patientDeleted from:body" hx-get="{% url 'patients-list' %}" hx-target="body" class="d-flex flex-column">
     {% for patient in page_obj %}
     <div class="d-flex">
       <a href="{% url 'patients-details' patient.pk %}" class="list-group-item list-group-item-action" aria-current="true">
@@ -29,7 +29,7 @@
           <button onclick="window.location.href='{% url 'patients-details' patient.pk %}'" class="btn" style="color:white; background-color: #9EC5FE;">
             Infos
           </button>
-          <button onclick="window.location.href='{% url "patients-delete" patient.pk %}'" class="btn btn-danger">
+          <button hx-get="{% url 'patients-delete' patient.pk%}" hx-target="#dialog" class="btn btn-danger">
             Supprimer
           </button>
         </div>
